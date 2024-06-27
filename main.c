@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: psapio <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   created: 2024/06/11 21:06:55 by psapio            #+#    #+#             */
-/*   updated: 2024/06/16 21:13:41 by psapio           ###   ########.fr       */
+/*   Created: 2024/06/27 17:04:12 by psapio            #+#    #+#             */
+/*   Updated: 2024/06/27 17:20:21 by psapio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -13,67 +14,65 @@
 #define WRITE 1
 #define READ 0
 
-void print_error(const char *msg)
+void	print_error(const char *msg)
 {
 	write(STDERR_FILENO, msg, ft_strlen(msg));
 }
 
-char *check_path(char **all_path, char *cmd)
+char	*check_path(char **all_path, char *cmd)
 {
-	char *path_name;
+	char	*path_name;
 	int		i;
 	char	*aux_free;
 
 	i = 0;
-	while(all_path[i])
+	while (all_path[i])
 	{
 		path_name = ft_strjoin(all_path[i], "/");
 		aux_free = path_name;
 		path_name = ft_strjoin(path_name, cmd);
 		free(aux_free);
-		if(access(path_name, X_OK) == -1)
+		if (access(path_name, X_OK) == -1)
 		{
 			i++;
 			free(path_name);
 		}
 		else
-			return(path_name);
+			return (path_name);
 	}
-	return(NULL);
+	return (NULL);
 }
 
-char *find_path_name(char *cmd, char **envp)
+char	*find_path_name(char *cmd, char **envp)
 {
 	char	**all_path;
 	char	*path_name;
 	int		i;
 
-	if(cmd == NULL || ft_strchr(cmd, '/') != NULL)
+	if (cmd == NULL || ft_strchr(cmd, '/') != NULL)
 		return (cmd);
 	i = 0;
-	while(envp[i] != NULL)
+	while (envp[i++] != NULL)
 	{
-		if(ft_strncmp(envp[i], "PATH=", 5) == 0)
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
 			all_path = ft_split(envp[i] + 5, ':');
 			break ;
 		}
-		i++;
 	}
 	i = 0;
 	path_name = check_path(all_path, cmd);
 	free_double_pointer(all_path);
-	if(path_name == NULL)
+	if (path_name == NULL)
 	{
 		write(2, cmd, ft_strlen(cmd));
 		write(2, ": command not found\n", 21);
 		exit(42);
 	}
-	
-	return(path_name);
+	return (path_name);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	(void)argc, (void)argv, (void)envp;
 	int p_fds[2];
