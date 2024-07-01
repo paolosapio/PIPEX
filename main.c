@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	pipe(p_fds);
 	child_pepe_first(p_fds, argv, envp);
-	last = child_paolo_second(p_fds, argv, envp);
+	last = child_paolo_last(p_fds, argv[argc - 2], argv[argc - 1], envp);
 	close(p_fds[WRITE]);
 	close(p_fds[READ]);
 	waitpid(last, &status, 0);

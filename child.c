@@ -53,7 +53,32 @@ void	child_pepe_first(int *p_fds, char **argv, char **envp)
 	}
 }
 
-pid_t	child_paolo_second(int *p_fds, char **argv, char **envp)
+void	child_pepa_midle(int *p1_fds, int *p2_fds, char **argv, char **envp)
+{
+	pid_t	family;
+	char	**cmd_arg;
+	char	*path_name;
+
+	family = fork();
+	if (family == 0)
+	{
+		close(p1_fds[WRITE]);
+		close(p2_fds[READ]);
+		dup2(p1_fds[READ], 0);
+		close(p1_fds[READ]);
+		cmd_arg = ft_split(argv[2], ' ');
+		path_name = find_path_name(cmd_arg[0], envp);
+		dup2(p2_fds[WRITE], 1);
+		close(p2_fds[WRITE]);
+		execve(path_name, cmd_arg, envp);
+		if (cmd_arg[0] == NULL)
+			cmd_arg[0] = "\"\"";
+		perror(cmd_arg[0]);
+		exit(42);
+	}
+}
+
+pid_t	child_paolo_last(int *p_fds, char *last_cmd, char *outfile, char **envp)
 {
 	pid_t	family;
 	int		out_fd;
@@ -64,10 +89,10 @@ pid_t	child_paolo_second(int *p_fds, char **argv, char **envp)
 	if (family == 0)
 	{
 		close(p_fds[WRITE]);
-		out_fd = openeitor(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		out_fd = openeitor(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 		dup2(out_fd, 1);
 		close(out_fd);
-		cmd_arg = ft_split(argv[3], ' ');
+		cmd_arg = ft_split(last_cmd, ' ');
 		path_name = find_path_name(cmd_arg[0], envp);
 		dup2(p_fds[READ], 0);
 		close(p_fds[READ]);

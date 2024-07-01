@@ -14,6 +14,8 @@
 #define WRITE 1
 #define READ 0
 
+void	child_pepa_midle(int *p1_fds, int *p2_fds, char **argv, char **envp);
+
 int	main(int argc, char **argv, char **envp)
 {
 	int		p_fds[2];
@@ -27,7 +29,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	pipe(p_fds);
 	child_pepe_first(p_fds, argv, envp);
-	last = child_paolo_second(p_fds, argv, envp);
+    // child_pepa_midle(p_fds, p2_fds, argv[3], envp);
+	last = child_paolo_last(p_fds, argv[argc - 2], argv[argc - 1], envp);
 	close(p_fds[WRITE]);
 	close(p_fds[READ]);
 	waitpid(last, &status, 0);
