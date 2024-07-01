@@ -6,7 +6,7 @@
 /*   By: psapio <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:45:44 by psapio            #+#    #+#             */
-/*   Updated: 2024/05/23 14:01:11 by psapio           ###   ########.fr       */
+/*   Updated: 2024/07/01 19:06:37 by psapio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	main(int num_arg, char **name_arg)
 	{
 		number_from_atoi = ft_atoi(name_arg[i]);
 		i++;
-		printf("numeros convertidos desde argumnetos a int: %ld\n", number_from_atoi);
+		printf("numeros convertidos
+desde argumnetos a int: %ld\n", number_from_atoi);
 	}
 	printf("Resultado controller: %d\n", controller_num(number_from_atoi));
 }

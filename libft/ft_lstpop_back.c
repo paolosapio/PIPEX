@@ -6,7 +6,7 @@
 /*   By: psapio <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:11:53 by psapio            #+#    #+#             */
-/*   Updated: 2024/05/23 14:13:11 by psapio           ###   ########.fr       */
+/*   Updated: 2024/07/01 19:11:24 by psapio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_list	*ft_lstpop_back(t_list **lst)
 			aux_list->next = NULL;
 			last->next = NULL;
 			return (last);
-		}	
+		}
 		aux_list = aux_list->next;
 	}
 	*lst = NULL;

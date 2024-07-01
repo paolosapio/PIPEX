@@ -6,7 +6,7 @@
 /*   By: psapio <psapio@student.42madrid.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 14:35:09 by psapio            #+#    #+#             */
-/*   Updated: 2024/06/24 16:46:41 by psapio           ###   ########.fr       */
+/*   Updated: 2024/07/01 19:14:17 by psapio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -78,6 +78,6 @@ t_list	*ft_lstpop_back(t_list **lst);
 
 /* LIBFT-SPECIAL */
 
-void free_double_pointer(char **strings);
+void	free_double_pointer(char **strings);
 
 #endif

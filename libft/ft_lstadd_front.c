@@ -6,10 +6,11 @@
 /*   By: psapio <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 14:52:22 by psapio            #+#    #+#             */
-/*   Updated: 2024/05/23 14:10:42 by psapio           ###   ########.fr       */
+/*   Updated: 2024/07/01 19:10:15 by psapio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"libft.h"
+
+#include "libft.h"
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {

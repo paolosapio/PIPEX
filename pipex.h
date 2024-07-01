@@ -24,6 +24,7 @@
 
 char	*find_path_name(char *cmd, char **envp);
 void	child_pepe_first(int *p_fds, char **argv, char **envp);
-void	child_paolo_second(int *p_fds, char **argv, char **envp);
+pid_t	child_paolo_second(int *p_fds, char **argv, char **envp);
+void	print_error(const char *msg);
 
 #endif

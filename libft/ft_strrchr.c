@@ -6,7 +6,7 @@
 /*   By: psapio <psapio@student.42madrid.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:01:53 by psapio            #+#    #+#             */
-/*   Updated: 2023/11/08 15:36:03 by psapio           ###   ########.fr       */
+/*   Updated: 2024/07/01 19:13:50 by psapio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -19,7 +19,7 @@ char	*ft_strrchr(const char *s, int c)
 	while (s[i] != '\0')
 		i++;
 	while (i >= 0)
-	{	
+	{
 		if (s[i] == (char)c)
 			return ((char *)s + i);
 		i--;

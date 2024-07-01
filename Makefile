@@ -1,37 +1,50 @@
-NAME	=	pipex
-#BONUS 	=
+NAME			=	pipex
+BONUS 			= 	pipex_bonus
 
-SRCS	= \
-		main.c\
-		child.c
+SHARED 			= 	\
+					child.c\
+					commander.c
 
-OBJS	=	$(SRCS:.c=.o)
+SRCS			= 	\
+					main.c\
+					$(SHARED)
 
-CC	=	gcc 
 
-RM	=	rm -f
+SRCS_BONUS		= 	\
+					main_bonus.c\
+					$(SHARED)
 
-SANITIZE = 	-fsanitize=address -fsanitize=leak -g3
-CFLAGS	=	-Wall -Wextra -Werror $(SANITIZE)
 
-all		:	$(NAME)
+OBJS			=	$(SRCS:.c=.o)
+OBJS_BONUS		=	$(SRCS_BONUS:.c=.o)
 
-bonus	: 	$(BONUS)
+CC				=	gcc 
 
-$(NAME)	:	$(OBJS) 
+RM				=	rm -f
+
+SANITIZE 		= 	-fsanitize=address -fsanitize=leak -g3
+CFLAGS			=	-Wall -Wextra -Werror #$(SANITIZE)
+
+all				:	$(NAME)
+
+bonus			: 	$(BONUS)
+
+$(NAME)			:	$(OBJS) 
 		make -C ./libft
 		$(CC) $(CFLAGS) $(OBJS) -I ./libft/libft.h ./libft/libft.a -o $(NAME)
 
-#$(BONUS) :	$(NAME)
-#		ln -s $(NAME) $@
+$(BONUS)		:	$(OBJS_BONUS) 
+		make -C ./libft
+		$(CC) $(CFLAGS) $(OBJS_BONUS) -I ./libft/libft.h ./libft/libft.a -o $(BONUS)
+
 	   
-clean	:
-			$(RM) $(OBJS)
-			make fclean -C ./libft	
+clean			:
+					$(RM) $(OBJS) $(OBJS_BONUS)
+					make fclean -C ./libft	
 
-fclean	:	clean
-			$(RM) $(NAME) $(BONUS)
+fclean			:	clean
+					$(RM) $(NAME) $(BONUS)
 
-.PHONY	:	all clean fclean re
+.PHONY			:	all clean fclean re bonus
 
-re	:	fclean all
+re				:	fclean all

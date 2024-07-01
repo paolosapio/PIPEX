@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	int		status;
 	pid_t	last;
 
-	if (argc != 5)
+	if (argc < 5)
 	{
 		print_error("Usage: ./pipex file1 cmd1 cmd2 file2\n");
 		exit(EXIT_FAILURE);
@@ -34,6 +34,3 @@ int	main(int argc, char **argv, char **envp)
 	waitpid(-1, NULL, 0);
 	return ((char)(status >> 8));
 }
-// interesting:
-// man waitpid
-// /./pipex infile "sleep 3" ls /dev/stdout

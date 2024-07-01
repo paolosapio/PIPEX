@@ -6,7 +6,7 @@
 /*   By: psapio <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 11:06:27 by psapio            #+#    #+#             */
-/*   Updated: 2024/03/22 12:00:36 by psapio           ###   ########.fr       */
+/*   Updated: 2024/07/01 19:13:28 by psapio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -57,7 +57,7 @@ void	*word_allocator(char const *s, char c, char **two_d_array)
 }
 
 char	**ft_split(char const *s, char c)
-{	
+{
 	char	**two_d_array;
 	size_t	number_words;
 
