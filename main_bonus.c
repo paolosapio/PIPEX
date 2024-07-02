@@ -14,13 +14,13 @@
 #define WRITE 1
 #define READ 0
 
-void	child_pepa_midle(int *p1_fds, int *p2_fds, char **argv, char **envp);
+void	child_pepa_midle(int *p_fds, int aux_pfd_read, char *argv, char **envp);
 
 int	main(int argc, char **argv, char **envp)
 {
 	int		p_fds[2];
-	int		status;
-	pid_t	last;
+	int		i;
+	int		aux_pfd_read;
 
 	if (argc < 5)
 	{
@@ -29,11 +29,26 @@ int	main(int argc, char **argv, char **envp)
 	}
 	pipe(p_fds);
 	child_pepe_first(p_fds, argv, envp);
-    // child_pepa_midle(p_fds, p2_fds, argv[3], envp);
-	last = child_paolo_last(p_fds, argv[argc - 2], argv[argc - 1], envp);
+	if (argc > 5)
+	{
+		i = 3; // es el argumneto de inicio de la pepa
+		while (i < (argc - 2))
+		{
+			aux_pfd_read = p_fds[READ];
+			close(p_fds[WRITE]);
+			pipe(p_fds);
+			child_pepa_midle(p_fds, aux_pfd_read, argv[i], envp);
+			i++;
+		}
+	}
+	close(aux_pfd_read);
+	child_paolo_last(p_fds, argv[argc - 2], argv[argc - 1], envp);
 	close(p_fds[WRITE]);
 	close(p_fds[READ]);
-	waitpid(last, &status, 0);
-	waitpid(-1, NULL, 0);
-	return ((char)(status >> 8));
+	while(1)
+	{
+		if (waitpid(-1, NULL, 0) == -1)
+			break ;
+	}
+	return (0);
 }
