@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psapio <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 17:04:12 by psapio            #+#    #+#             */
-/*   Updated: 2024/07/01 18:57:14 by psapio           ###   ########.fr       */
+/*   Updated: 2024/07/04 17:07:16 by psapio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,13 @@ int	main(int argc, char **argv, char **envp)
 		print_error("Usage: ./pipex file1 cmd1 cmd2 file2\n");
 		exit(EXIT_FAILURE);
 	}
-	pipe(p_fds);
+	if (argc > 5 && ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		here_dokeitor(p_fds, argv[2]);
+	}
+
+	else if (pipe(p_fds) == -1)
+		return(1);
 	child_pepe_first(p_fds, argv, envp);
 	if (argc > 5)
 	{
@@ -36,7 +42,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			aux_pfd_read = p_fds[READ];
 			close(p_fds[WRITE]);
-			pipe(p_fds);
+			if (pipe(p_fds) == -1)
+				return(1);
 			child_pepa_midle(p_fds, aux_pfd_read, argv[i], envp);
 			i++;
 		}

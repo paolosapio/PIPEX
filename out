@@ -1,0 +1,19 @@
+total 72$$$
+-rwxr-xr-x 1 psapio 2019     0 Jul  3 12:02 as$$$
+-rw-r--r-- 1 psapio 2019  2743 Jul  2 21:10 child.c$$$
+-rw-r--r-- 1 psapio 2019  3816 Jul  3 12:00 child.o$$$
+-rw-r--r-- 1 psapio 2019  1925 Jul  1 21:16 commander.c$$$
+-rw-r--r-- 1 psapio 2019  2960 Jul  3 12:00 commander.o$$$
+drwxrwxr-x 2 psapio 2019   226 Jun 16 21:45 GNL$$$
+-rw-r--r-- 1 psapio 2019    82 Jul  2 20:58 infile$$$
+drwxrwxr-x 2 psapio 2019  4096 Jul  3 12:00 libft$$$
+-rwxr-xr-x 1 psapio 2019     0 Jul  3 12:03 ls$$$
+-rw-r--r-- 1 psapio 2019  1711 Jul  2 21:22 main_bonus.c$$$
+-rw-r--r-- 1 psapio 2019  2432 Jul  3 12:00 main_bonus.o$$$
+-rw-rw-r-- 1 psapio 2019  1460 Jul  2 19:01 main.c$$$
+-rw-rw-r-- 1 psapio 2019   876 Jul  3 12:00 Makefile$$$
+-rwxr-xr-x 1 psapio 2019     0 Jul  3 12:05 out$$$
+-rw-r--r-- 1 psapio 2019    24 Jul  2 21:06 outfile$$$
+-rwxr-xr-x 1 psapio 2019 21608 Jul  3 12:00 pipex_bonus$$$
+-rw-rw-r-- 1 psapio 2019  1353 Jul  1 22:57 pipex.h$$$
+-rwxr-xr-x 1 psapio 2019     0 Jul  3 12:03 sasad$$$

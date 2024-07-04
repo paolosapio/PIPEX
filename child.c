@@ -6,7 +6,7 @@
 /*   By: psapio <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:34:40 by psapio            #+#    #+#             */
-/*   Updated: 2024/07/01 19:01:55 by psapio           ###   ########.fr       */
+/*   Updated: 2024/07/03 12:14:49 by psapio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	child_pepe_first(int *p_fds, char **argv, char **envp)
 		path_name = find_path_name(cmd_arg[0], envp);
 		dup2(p_fds[WRITE], 1);
 		close(p_fds[WRITE]);
-		execve(path_name, cmd_arg, envp);
+		execve(path_name, cmd_arg, NULL);
 		if (cmd_arg[0] == NULL)
 			cmd_arg[0] = "\"\"";
 		perror(cmd_arg[0]);
