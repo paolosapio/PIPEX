@@ -22,12 +22,12 @@ int	openeitor(const char *file, int flags, mode_t mode)
 	if (file_fd == -1)
 	{
 		perror(file);
-		exit(42);
+		exit(1);
 	}
 	return (file_fd);
 }
 
-void	child_pepe_first(int *p_fds, char **argv, char **envp)
+void	child_pepe_first(int *p_fds, char *first_cmd, char *infile, char **envp)
 {
 	pid_t	family;
 	int		in_fd;
@@ -38,10 +38,10 @@ void	child_pepe_first(int *p_fds, char **argv, char **envp)
 	if (family == 0)
 	{
 		close(p_fds[READ]);
-		in_fd = openeitor(argv[1], O_RDONLY, 0);
+		in_fd = openeitor(infile, O_RDONLY, 0);
 		dup2(in_fd, 0);
 		close(in_fd);
-		cmd_arg = ft_split(argv[2], ' ');
+		cmd_arg = ft_split(first_cmd, ' ');
 		path_name = find_path_name(cmd_arg[0], envp);
 		dup2(p_fds[WRITE], 1);
 		close(p_fds[WRITE]);
@@ -49,11 +49,11 @@ void	child_pepe_first(int *p_fds, char **argv, char **envp)
 		if (cmd_arg[0] == NULL)
 			cmd_arg[0] = "\"\"";
 		perror(cmd_arg[0]);
-		exit(42);
+		exit(1);
 	}
 }
 
-void	child_pepa_midle(int *p_fds, int aux_pfd_read, char *middle_cmds, char **envp)
+void	child_pepa_midle(int *p_fds, int aux_fd_r, char *mid_cmd, char **envp)
 {
 	pid_t	family;
 	char	**cmd_arg;
@@ -63,9 +63,9 @@ void	child_pepa_midle(int *p_fds, int aux_pfd_read, char *middle_cmds, char **en
 	if (family == 0)
 	{
 		close(p_fds[READ]);
-		dup2(aux_pfd_read, 0);
-		close(aux_pfd_read);
-		cmd_arg = ft_split(middle_cmds, ' ');
+		dup2(aux_fd_r, 0);
+		close(aux_fd_r);
+		cmd_arg = ft_split(mid_cmd, ' ');
 		path_name = find_path_name(cmd_arg[0], envp);
 		dup2(p_fds[WRITE], 1);
 		close(p_fds[WRITE]);
@@ -73,7 +73,7 @@ void	child_pepa_midle(int *p_fds, int aux_pfd_read, char *middle_cmds, char **en
 		if (cmd_arg[0] == NULL)
 			cmd_arg[0] = "\"\"";
 		perror(cmd_arg[0]);
-		exit(42);
+		exit(1);
 	}
 }
 
@@ -99,7 +99,7 @@ pid_t	child_paolo_last(int *p_fds, char *last_cmd, char *outfile, char **envp)
 		if (cmd_arg[0] == NULL)
 			cmd_arg[0] = "\"\"";
 		perror(cmd_arg[0]);
-		exit(42);
+		exit(1);
 	}
 	return (family);
 }

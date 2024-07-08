@@ -14,48 +14,72 @@
 #define WRITE 1
 #define READ 0
 
-void	child_pepa_midle(int *p_fds, int aux_pfd_read, char *argv, char **envp);
+void	wait_all(pid_t last_family)
+{
+	pid_t	ret_wait;
+	int		status;
+	int		final_status;
+
+	while (1)
+	{
+		ret_wait = waitpid(-1, &status, 0);
+		if (ret_wait == -1)
+			break ;
+		if (ret_wait == last_family)
+			final_status = status >> 8;
+	}
+	exit((unsigned char)final_status);
+}
+
+void	final_return(int argc, char **argv, char **envp, int *p_fds)
+{
+	pid_t	last_family;
+
+	last_family = child_paolo_last(p_fds, argv[argc - 2], argv[argc - 1], envp);
+	close(p_fds[WRITE]);
+	close(p_fds[READ]);
+	unlink("/tmp/tempfile");
+	wait_all(last_family);
+}
+
+int	parser(int argc, char **argv)
+{
+	int	i;
+
+	i = 0;
+	if (argc < 5)
+		print_error("Usage: ./pipex file1 cmd1 cmd2 file2\n");
+	if (argc > 5 && ft_strcmp(argv[1], "here_doc") == 0)
+	{
+		i = 1;
+		argv[2] = here_dokeitor(argv[2]);
+	}
+	return (i);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	int		p_fds[2];
 	int		i;
-	int		aux_pfd_read;
+	int		aux_fd_r;
 
-	if (argc < 5)
-	{
-		print_error("Usage: ./pipex file1 cmd1 cmd2 file2\n");
-		exit(EXIT_FAILURE);
-	}
-	if (argc > 5 && ft_strncmp(argv[1], "here_doc", 8) == 0)
-	{
-		here_dokeitor(p_fds, argv[2]);
-	}
-
-	else if (pipe(p_fds) == -1)
-		return(1);
-	child_pepe_first(p_fds, argv, envp);
+	i = parser(argc, argv);
+	if (pipe(p_fds) == -1)
+		return (1);
+	child_pepe_first(p_fds, argv[2 + i], argv[1 + i], envp);
 	if (argc > 5)
 	{
-		i = 3; // es el argumneto de inicio de la pepa
+		i = 3 + i;
 		while (i < (argc - 2))
 		{
-			aux_pfd_read = p_fds[READ];
+			aux_fd_r = p_fds[READ];
 			close(p_fds[WRITE]);
 			if (pipe(p_fds) == -1)
-				return(1);
-			child_pepa_midle(p_fds, aux_pfd_read, argv[i], envp);
+				return (1);
+			child_pepa_midle(p_fds, aux_fd_r, argv[i], envp);
 			i++;
 		}
 	}
-	close(aux_pfd_read);
-	child_paolo_last(p_fds, argv[argc - 2], argv[argc - 1], envp);
-	close(p_fds[WRITE]);
-	close(p_fds[READ]);
-	while(1)
-	{
-		if (waitpid(-1, NULL, 0) == -1)
-			break ;
-	}
-	return (0);
+	close(aux_fd_r);
+	final_return(argc, argv, envp, p_fds);
 }

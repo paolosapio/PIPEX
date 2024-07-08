@@ -26,17 +26,13 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	if (pipe(p_fds) == -1)
-		return(1);
-	child_pepe_first(p_fds, argv, envp);
+		return (1);
+	child_pepe_first(p_fds, argv[2], argv[1], envp);
 	last = child_paolo_last(p_fds, argv[argc - 2], argv[argc - 1], envp);
 	close(p_fds[WRITE]);
 	close(p_fds[READ]);
 	waitpid(last, &status, 0);
 	waitpid(-1, NULL, 0);
-	while (1)
-	{
-	}
-
 	return ((char)(status >> 8));
 }
 // interesting:

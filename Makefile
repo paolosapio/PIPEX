@@ -3,7 +3,10 @@ BONUS 			= 	pipex_bonus
 
 SHARED 			= 	\
 					child.c\
-					commander.c
+					commander.c\
+					here_docereitor.c\
+					GNL/get_next_line_bonus.c\
+					GNL/get_next_line_utils_bonus.c
 
 SRCS			= 	\
 					main.c\
@@ -23,7 +26,7 @@ CC				=	gcc
 RM				=	rm -f
 
 SANITIZE 		= 	-fsanitize=address -fsanitize=leak -g3
-CFLAGS			=	-Wall -Wextra -Werror #$(SANITIZE)
+CFLAGS			=	-Wall -Wextra -Werror $(SANITIZE)
 
 all				:	$(NAME)
 

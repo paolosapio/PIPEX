@@ -73,7 +73,7 @@ static char	*loop(int fd, t_data *data, char **ellis)
 char	*get_next_line(int fd)
 {
 	t_data		data;
-	static char	*ellis[OPEN_MAX];
+	static char	*ellis[FOPEN_MAX];
 
 	if (fd < 0)
 		return (NULL);

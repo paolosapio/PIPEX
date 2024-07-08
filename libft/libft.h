@@ -79,5 +79,6 @@ t_list	*ft_lstpop_back(t_list **lst);
 /* LIBFT-SPECIAL */
 
 void	free_double_pointer(char **strings);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

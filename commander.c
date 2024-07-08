@@ -17,6 +17,7 @@
 void	print_error(const char *msg)
 {
 	write(STDERR_FILENO, msg, ft_strlen(msg));
+	exit(EXIT_FAILURE);
 }
 
 char	*check_path(char **all_path, char *cmd)
