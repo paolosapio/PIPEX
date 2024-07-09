@@ -21,10 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	last;
 
 	if (argc != 5)
-	{
 		print_error("Usage: ./pipex file1 cmd1 cmd2 file2\n");
-		exit(EXIT_FAILURE);
-	}
 	if (pipe(p_fds) == -1)
 		return (1);
 	child_pepe_first(p_fds, argv[2], argv[1], envp);

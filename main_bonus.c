@@ -75,11 +75,10 @@ int	main(int argc, char **argv, char **envp)
 			aux_fd_r = p_fds[READ];
 			close(p_fds[WRITE]);
 			if (pipe(p_fds) == -1)
-				return (1);
+				exit(1);
 			child_pepa_midle(p_fds, aux_fd_r, argv[i], envp);
 			i++;
 		}
 	}
-	close(aux_fd_r);
 	final_return(argc, argv, envp, p_fds);
 }

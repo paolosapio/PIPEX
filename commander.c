@@ -68,7 +68,7 @@ char	*find_path_name(char *cmd, char **envp)
 	{
 		write(2, cmd, ft_strlen(cmd));
 		write(2, ": command not found\n", 21);
-		exit(42);
+		exit(1);
 	}
 	return (path_name);
 }

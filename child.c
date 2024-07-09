@@ -14,13 +14,15 @@
 #define WRITE 1
 #define READ 0
 
-int	openeitor(const char *file, int flags, mode_t mode)
+int	openeitor(int *p_fds, const char *file, int flags, mode_t mode)
 {
 	int	file_fd;
 
 	file_fd = open(file, flags, mode);
 	if (file_fd == -1)
 	{
+		close(p_fds[WRITE]);
+		close(p_fds[READ]);
 		perror(file);
 		exit(1);
 	}
@@ -38,7 +40,7 @@ void	child_pepe_first(int *p_fds, char *first_cmd, char *infile, char **envp)
 	if (family == 0)
 	{
 		close(p_fds[READ]);
-		in_fd = openeitor(infile, O_RDONLY, 0);
+		in_fd = openeitor(p_fds, infile, O_RDONLY, 0);
 		dup2(in_fd, 0);
 		close(in_fd);
 		cmd_arg = ft_split(first_cmd, ' ');
@@ -75,6 +77,8 @@ void	child_pepa_midle(int *p_fds, int aux_fd_r, char *mid_cmd, char **envp)
 		perror(cmd_arg[0]);
 		exit(1);
 	}
+	close(p_fds[WRITE]);
+	close(aux_fd_r);
 }
 
 pid_t	child_paolo_last(int *p_fds, char *last_cmd, char *outfile, char **envp)
@@ -88,7 +92,7 @@ pid_t	child_paolo_last(int *p_fds, char *last_cmd, char *outfile, char **envp)
 	if (family == 0)
 	{
 		close(p_fds[WRITE]);
-		out_fd = openeitor(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		out_fd = openeitor(p_fds, outfile, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 		dup2(out_fd, 1);
 		close(out_fd);
 		cmd_arg = ft_split(last_cmd, ' ');
