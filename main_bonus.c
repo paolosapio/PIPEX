@@ -22,7 +22,7 @@ void	wait_all(pid_t last_family)
 
 	while (1)
 	{
-		ret_wait = waitpid(-1, &status, 0); //Leer en la biblioteca wait.h los punteros a función necesarios para sacar el status correctamente
+		ret_wait = waitpid(-1, &status, 0);
 		if (ret_wait == -1)
 			break ;
 		if (ret_wait == last_family)

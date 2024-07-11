@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <errno.h>
 #define WRITE 1
 #define READ 0
 
@@ -27,6 +28,19 @@ int	openeitor(int *p_fds, const char *file, int flags, mode_t mode)
 		exit(1);
 	}
 	return (file_fd);
+}
+
+void	ft_perror(char *str)
+{
+	if (str == NULL)
+		write(2, "\"\": empty command\n", 19);
+	else if ((str != NULL) && (errno != 0))
+		perror(str);
+	else
+	{
+		write(2, str, ft_strlen(str));
+		write(2, ": command not found\n", 21);
+	}
 }
 
 void	child_pepe_first(int *p_fds, char *first_cmd, char *infile, char **envp)
@@ -46,15 +60,14 @@ void	child_pepe_first(int *p_fds, char *first_cmd, char *infile, char **envp)
 		cmd_arg = ft_split(first_cmd, ' ');
 		if (cmd_arg == NULL)
 			exit(1);
-		path_name = find_path_name(cmd_arg[0], envp);
-		if (path_name == NULL)
-			return (free_double_pointer(cmd_arg), exit(1));
+		path_name = find_path_name(cmd_arg[0], envp, cmd_arg);
 		dup2(p_fds[WRITE], 1);
 		close(p_fds[WRITE]);
-		execve(path_name, cmd_arg, NULL);
-		if (cmd_arg[0] == NULL)
-			cmd_arg[0] = "\"\""; // Habría que oner simplmente un valor nulo???
-		perror(cmd_arg[0]);
+		if (path_name != NULL)
+			execve(path_name, cmd_arg, envp);
+		free(path_name);
+		ft_perror(cmd_arg[0]);
+		free_double_pointer(cmd_arg);
 		exit(1);
 	}
 }
@@ -72,13 +85,12 @@ void	child_pepa_midle(int *p_fds, int aux_fd_r, char *mid_cmd, char **envp)
 		dup2(aux_fd_r, 0);
 		close(aux_fd_r);
 		cmd_arg = ft_split(mid_cmd, ' ');
-		path_name = find_path_name(cmd_arg[0], envp);
+		path_name = find_path_name(cmd_arg[0], envp, cmd_arg);
 		dup2(p_fds[WRITE], 1);
 		close(p_fds[WRITE]);
-		execve(path_name, cmd_arg, envp);
-		if (cmd_arg[0] == NULL)
-			cmd_arg[0] = "\"\"";
-		perror(cmd_arg[0]);
+		if (path_name != NULL)
+			execve(path_name, cmd_arg, envp);
+		ft_perror(cmd_arg[0]);
 		exit(1);
 	}
 	close(p_fds[WRITE]);
@@ -100,13 +112,12 @@ pid_t	child_paolo_last(int *p_fds, char *last_cmd, char *outfile, char **envp)
 		dup2(out_fd, 1);
 		close(out_fd);
 		cmd_arg = ft_split(last_cmd, ' ');
-		path_name = find_path_name(cmd_arg[0], envp);
+		path_name = find_path_name(cmd_arg[0], envp, cmd_arg);
 		dup2(p_fds[READ], 0);
 		close(p_fds[READ]);
-		execve(path_name, cmd_arg, envp);
-		if (cmd_arg[0] == NULL)
-			cmd_arg[0] = "\"\"";
-		perror(cmd_arg[0]);
+		if (path_name != NULL)
+			execve(path_name, cmd_arg, envp);
+		ft_perror(cmd_arg[0]);
 		exit(1);
 	}
 	return (family);

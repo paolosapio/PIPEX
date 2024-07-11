@@ -25,7 +25,7 @@ CC				=	gcc
 
 RM				=	rm -f
 
-SANITIZE 		= 	-fsanitize=address -fsanitize=leak -g3
+SANITIZE 		= 	-g3 -fsanitize=address -fsanitize=leak 
 CFLAGS			=	-Wall -Wextra -Werror $(SANITIZE)
 
 all				:	$(NAME)
