@@ -29,10 +29,14 @@ char	*check_path(char **all_path, char *cmd)
 	i = 0;
 	while (all_path[i])
 	{
-		path_name = ft_strjoin(all_path[i], "/");
+		path_name = ft_strjoin(all_path[i], "/"); //Controlar fallo en la reserva de memoria
+		if (path_name == NULL)
+			return (NULL);
 		aux_free = path_name;
-		path_name = ft_strjoin(path_name, cmd);
+		path_name = ft_strjoin(path_name, cmd); //Controlar fallo en la reserva de memoria
 		free(aux_free);
+		if (path_name == NULL)
+			return (NULL);
 		if (access(path_name, X_OK) == -1)
 		{
 			i++;
@@ -44,6 +48,16 @@ char	*check_path(char **all_path, char *cmd)
 	return (NULL);
 }
 
+void error_path(char *path_name, char *cmd)
+{
+	if (path_name == NULL)
+	{	
+		write(2, cmd, ft_strlen(cmd));
+		write(2, ": command not found\n", 21);
+		exit(1);
+	}
+}
+
 char	*find_path_name(char *cmd, char **envp)
 {
 	char	**all_path;
@@ -53,22 +67,21 @@ char	*find_path_name(char *cmd, char **envp)
 	if (cmd == NULL || ft_strchr(cmd, '/') != NULL)
 		return (cmd);
 	i = 0;
-	while (envp[i++] != NULL)
+	while (envp[i++] != NULL) //Controlar que no exista PATH
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
 			all_path = ft_split(envp[i] + 5, ':');
+			if(all_path == NULL)
+				return (NULL);
 			break ;
 		}
 	}
 	i = 0;
 	path_name = check_path(all_path, cmd);
+	if (!path_name)
+		return (free_double_pointer(all_path), NULL);
 	free_double_pointer(all_path);
-	if (path_name == NULL)
-	{
-		write(2, cmd, ft_strlen(cmd));
-		write(2, ": command not found\n", 21);
-		exit(1);
-	}
+	error_path(path_name, cmd);
 	return (path_name);
 }

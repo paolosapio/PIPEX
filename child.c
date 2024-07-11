@@ -44,12 +44,16 @@ void	child_pepe_first(int *p_fds, char *first_cmd, char *infile, char **envp)
 		dup2(in_fd, 0);
 		close(in_fd);
 		cmd_arg = ft_split(first_cmd, ' ');
+		if (cmd_arg == NULL)
+			exit(1);
 		path_name = find_path_name(cmd_arg[0], envp);
+		if (path_name == NULL)
+			return (free_double_pointer(cmd_arg), exit(1));
 		dup2(p_fds[WRITE], 1);
 		close(p_fds[WRITE]);
 		execve(path_name, cmd_arg, NULL);
 		if (cmd_arg[0] == NULL)
-			cmd_arg[0] = "\"\"";
+			cmd_arg[0] = "\"\""; // Habría que oner simplmente un valor nulo???
 		perror(cmd_arg[0]);
 		exit(1);
 	}
