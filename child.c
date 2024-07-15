@@ -97,7 +97,12 @@ void	child_pepa_midle(int *p_fds, int aux_fd_r, char *mid_cmd, char **envp)
 	close(aux_fd_r);
 }
 
-pid_t	child_paolo_last(int *p_fds, char *last_cmd, char *outfile, char **envp)
+// OUT_APPEND = O_CREAT | O_WRONLY | O_APPEND
+#define OUT_APPEND 1089
+// OUT_TRUNC = O_CREAT | O_WRONLY | O_TRUNC
+#define OUT_TRUNC 577
+
+pid_t	child_paolo_last(int *p_fds, char **argv, int argc, char **envp)
 {
 	pid_t	family;
 	int		out_fd;
@@ -108,10 +113,13 @@ pid_t	child_paolo_last(int *p_fds, char *last_cmd, char *outfile, char **envp)
 	if (family == 0)
 	{
 		close(p_fds[WRITE]);
-		out_fd = openeitor(p_fds, outfile, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		if (ft_strcmp("here_doc", argv[1]) == 0 && argc > 5)
+			out_fd = openeitor(p_fds, argv[argc - 1], OUT_APPEND, 0777);
+		else
+			out_fd = openeitor(p_fds, argv[argc - 1], OUT_TRUNC, 0777);
 		dup2(out_fd, 1);
 		close(out_fd);
-		cmd_arg = ft_split(last_cmd, ' ');
+		cmd_arg = ft_split(argv[argc - 2], ' ');
 		path_name = find_path_name(cmd_arg[0], envp, cmd_arg);
 		dup2(p_fds[READ], 0);
 		close(p_fds[READ]);

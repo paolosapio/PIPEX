@@ -35,7 +35,7 @@ void	final_return(int argc, char **argv, char **envp, int *p_fds)
 {
 	pid_t	last_family;
 
-	last_family = child_paolo_last(p_fds, argv[argc - 2], argv[argc - 1], envp);
+	last_family = child_paolo_last(p_fds, argv, argc, envp);
 	close(p_fds[WRITE]);
 	close(p_fds[READ]);
 	unlink("/tmp/tempfile");
@@ -45,11 +45,16 @@ void	final_return(int argc, char **argv, char **envp, int *p_fds)
 int	parser(int argc, char **argv)
 {
 	int	i;
+	int	flag;
 
 	i = 0;
-	if (argc < 5)
-		print_error("Usage: ./pipex file1 cmd1 cmd2 file2\n");
-	if (argc > 5 && ft_strcmp(argv[1], "here_doc") == 0)
+	flag = ft_strcmp(argv[1], "here_doc");
+	if (argc < 5 || (flag == 0 && argc < 6))
+		print_error("Invalid Arguments\n\
+		\rWITHOUT BONUS: ./pipex infile cmd1 cmd2 outfile\n\
+		\r   WITH BONUS: ./pipex_bonus infile cmd1 cmd2 cmd3...cmd_n outfile\n\
+		\rWITH HERE_DOC: ./pipex_bonus here_doc LIMITER cmd1 cmd2 outfile\n");
+	if (argc >= 6 && flag == 0)
 	{
 		i = 1;
 		argv[2] = here_dokeitor(argv[2]);

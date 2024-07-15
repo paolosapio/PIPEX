@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	if (pipe(p_fds) == -1)
 		return (1);
 	child_pepe_first(p_fds, argv[2], argv[1], envp);
-	last = child_paolo_last(p_fds, argv[argc - 2], argv[argc - 1], envp);
+	last = child_paolo_last(p_fds, argv, argc, envp);
 	close(p_fds[WRITE]);
 	close(p_fds[READ]);
 	waitpid(last, &status, 0);

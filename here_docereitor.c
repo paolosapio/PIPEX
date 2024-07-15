@@ -20,6 +20,8 @@ char	*here_dokeitor(char *limiter)
 
 	limiter_nl = ft_strjoin(limiter, "\n");
 	fd_doc = open("/tmp/tempfile", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd_doc == -1)
+		return (unlink("/tmp/tempfile"), NULL);
 	while (1)
 	{
 		write(1, "heredoc> ", 9);

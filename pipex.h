@@ -26,7 +26,7 @@
 char	*find_path_name(char *cmd, char **envp, char **cmd_arg);
 void	child_pepe_first(int *p_fds, char *first_cmd, char *in_f, char **envp);
 void	child_pepa_midle(int *p_fds, int aux_fd_r, char *argv, char **envp);
-pid_t	child_paolo_last(int *p_fds, char *last_cmd, char *out_f, char **envp);
+pid_t	child_paolo_last(int *p_fds, char **argv, int argc, char **envp);
 void	print_error(const char *msg);
 char	*here_dokeitor(char *limiter);
 
